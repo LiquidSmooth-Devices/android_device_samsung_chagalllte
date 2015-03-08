@@ -1,5 +1,5 @@
 #
-# system.prop for chagallwifi
+# system.prop for chagalllte
 #
 
 # Media
@@ -27,7 +27,11 @@ ro.hwui.text_large_cache_height=1024
 persist.sys.usb.config=mtp
 
 # Radio
-ro.radio.noril=yes
+rild.libpath=/system/lib/libsec-ril.so
+rild.libargs=-d /dev/ttyS0
+ro.telephony.default_network=9
+ro.telephony.ril_class=chagalllteRIL
+ro.ril.telephony.mqanelements=6
 
 # Randomly from stock
 ro.ril.gprsclass=10

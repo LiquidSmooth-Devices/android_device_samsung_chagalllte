@@ -159,3 +159,7 @@ usr/keylayout/gpio-keys.kl
 
 # swapping the sammy way
 /sbin/sswap
+
+# ril
+sbin/cbd
+system/lib/libsec-ril.so

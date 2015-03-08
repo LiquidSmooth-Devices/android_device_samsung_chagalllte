@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := device/samsung/chagallwifi
+LOCAL_PATH := device/samsung/chagalllte
 
 # Platform
 BOARD_VENDOR := samsung
@@ -36,6 +36,13 @@ TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 # Audio
 BOARD_USES_LIBMEDIA_WITH_AUDIOPARAMETER := true
 
+# RIL
+BOARD_PROVIDES_LIBRIL := true
+# hardware/samsung/ril
+BOARD_MODEM_TYPE := xmm7260
+# RIL.java overwrite
+BOARD_RIL_CLASS := ../../../$(LOCAL_PATH)/ril
+
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
@@ -43,7 +50,7 @@ BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Bootloader
-TARGET_OTA_ASSERT_DEVICE := chagallwifi
+TARGET_OTA_ASSERT_DEVICE := chagalllte
 
 # Camera
 # COMMON_GLOBAL_CFLAGS += -DUSE_MEMORY_HEAP_ION
@@ -58,10 +65,10 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 # Kernel
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
-TARGET_KERNEL_CONFIG := cyanogenmod_chagallwifi_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/chagallwifi
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.8
-#TARGET_PREBUILT_KERNEL := device/samsung/chagallwifi/kernel
+TARGET_KERNEL_CONFIG := cyanogenmod_chagalllte_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/chagalllte
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.8
+#TARGET_PREBUILT_KERNEL := device/samsung/chagalllte/kernel
 
 # Battery
 BOARD_BATTERY_DEVICE_NAME := battery
@@ -91,7 +98,7 @@ BOARD_USES_HWC_SERVICES := true
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Hardware
-BOARD_HARDWARE_CLASS += device/samsung/chagallwifi/cmhw
+BOARD_HARDWARE_CLASS += device/samsung/chagalllte/cmhw
 
 # Init
 TARGET_NR_SVC_SUPP_GIDS := 20
@@ -117,31 +124,37 @@ BOARD_USE_DUALDPB_MODE := true
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2527068160
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 12637437952
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 9639936 
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12629049344
 BOARD_FLASH_BLOCK_SIZE := 4096
 
+BOARD_KERNEL_TAGS_OFFSET := 0x00f00000
+BOARD_RAMDISK_OFFSET     := 0x02000000
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000
+
 # PowerHAL
-TARGET_POWERHAL_VARIANT := chagallwifi
+TARGET_POWERHAL_VARIANT := chagalllte
 
 # Recovery
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.universal5420
+TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/rootdir/etc/init.recovery.universal5420.rc
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_RECOVERY_SWIPE := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Scaler
 BOARD_USES_SCALER := true
 
 # SELinux
 BOARD_SEPOLICY_DIRS := \
-    device/samsung/chagallwifi/sepolicy
+    device/samsung/chagalllte/sepolicy
 
 BOARD_SEPOLICY_UNION := \
     file_contexts \
@@ -178,5 +191,12 @@ BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
 WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA          := "/system/etc/wifi/bcmdhd_sta.bin"
 
+# TW Flags
+DEVICE_RESOLUTION := 2560x1600
+TW_NO_USB_STORAGE := true
+TW_INCLUDE_JB_CRYPTO := true
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_SUPPRESS_SECURE_ERASE := true
+
 # inherit from the proprietary version
--include vendor/samsung/chagallwifi/BoardConfigVendor.mk
+-include vendor/samsung/chagalllte/BoardConfigVendor.mk
