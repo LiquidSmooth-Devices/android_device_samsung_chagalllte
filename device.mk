@@ -202,7 +202,8 @@ PRODUCT_PACKAGES += \
     macloader
     
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.carrier=unknown
+    ro.carrier=unknown \
+    ro.ril.telephony.mqanelements=6
 
 # CPU producer to CPU consumer not supported 
 PRODUCT_PROPERTY_OVERRIDES += \
