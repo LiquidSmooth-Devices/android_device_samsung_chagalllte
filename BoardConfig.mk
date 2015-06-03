@@ -33,6 +33,9 @@ TARGET_CPU_VARIANT := cortex-a15
 # Enable QC's libm optimizations
 TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 
+# Vold
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/class/android_usb/android0/f_mass_storage/lun0/file
+
 # Audio
 BOARD_USES_LIBMEDIA_WITH_AUDIOPARAMETER := true
 
@@ -49,9 +52,6 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
-# Bootloader
-TARGET_OTA_ASSERT_DEVICE := chagalllte
-
 # Camera
 # COMMON_GLOBAL_CFLAGS += -DUSE_MEMORY_HEAP_ION
 BOARD_NEEDS_MEMORYHEAPION := true
@@ -66,14 +66,18 @@ COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_CONFIG := cyanogenmod_chagalllte_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/chagalllte
+TARGET_KERNEL_SOURCE := kernel/samsung/chagallwifi
 #TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.8
 #TARGET_PREBUILT_KERNEL := device/samsung/chagalllte/kernel
 
-# Battery
+# Charging mode
+BOARD_CHARGER_ENABLE_SUSPEND := true
+BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
 BOARD_BATTERY_DEVICE_NAME := battery
 
 # Bootloader
+TARGET_OTA_ASSERT_DEVICE := chagalllte
 TARGET_BOOTLOADER_BOARD_NAME := universal5420
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
@@ -85,11 +89,7 @@ BOARD_USES_NEON_BLITANTIH := true
 # Graphics
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := $(LOCAL_PATH)/configs/egl.cfg
-BOARD_EGL_SYSTEMUI_PBSIZE_HACK := true
-BOARD_EGL_WORKAROUND_BUG_10194508 := true
-BOARD_USE_BGRA_8888 := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 5
-# OVERRIDE_RS_DRIVER := libRSDriverArm.so
 
 # HWCServices
 BOARD_USES_HWC_SERVICES := true
@@ -98,7 +98,7 @@ BOARD_USES_HWC_SERVICES := true
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Hardware
-BOARD_HARDWARE_CLASS += device/samsung/chagalllte/cmhw
+#BOARD_HARDWARE_CLASS += device/samsung/chagalllte/cmhw
 
 # Init
 TARGET_NR_SVC_SUPP_GIDS := 20
@@ -129,10 +129,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12629049344
 BOARD_FLASH_BLOCK_SIZE := 4096
 
-BOARD_KERNEL_TAGS_OFFSET := 0x00f00000
-BOARD_RAMDISK_OFFSET     := 0x02000000
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000
-
 # PowerHAL
 TARGET_POWERHAL_VARIANT := chagalllte
 
@@ -141,34 +137,40 @@ COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.universal5420
-TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/rootdir/etc/init.recovery.universal5420.rc
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_RECOVERY_SWIPE := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Scaler
 BOARD_USES_SCALER := true
 
 # SELinux
-BOARD_SEPOLICY_DIRS := \
-    device/samsung/chagalllte/sepolicy
+BOARD_SEPOLICY_DIRS += \
+	device/samsung/chagalllte/sepolicy
 
-BOARD_SEPOLICY_UNION := \
-    file_contexts \
-    genfs_contexts \
-    adbd.te \
-    app.te \
-    device.te \
-    domain.te \
-    gpsd.te \
-    file.te \
-    mediaserver.te \
-    surfaceflinger.te \
-    samsung_media.te \
-    system.te
+BOARD_SEPOLICY_UNION += \
+	file_contexts \
+	debuggerd.te \
+	device.te \
+	domain.te \
+	drmserver.te \
+	file.te \
+	gpsd.te \
+	init.te \
+	kernel.te \
+	mediaserver.te \
+	macloader.te \
+	service_contexts \
+	servicemanager.te \
+	shell.te \
+	sysinit.te \
+	system_app.te \
+	system_server.te \
+	vold.te \
+	rild.te \
+	wpa.te
 
 # SurfaceFlinger
 BOARD_USES_SYNC_MODE_FOR_MEDIA := true
@@ -191,13 +193,6 @@ BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
 WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA          := "/system/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/system/etc/wifi/bcmdhd_apsta.bin"
-
-# TW Flags
-DEVICE_RESOLUTION := 2560x1600
-TW_NO_USB_STORAGE := true
-TW_INCLUDE_JB_CRYPTO := true
-RECOVERY_SDCARD_ON_DATA := true
-BOARD_SUPPRESS_SECURE_ERASE := true
 
 # inherit from the proprietary version
 -include vendor/samsung/chagalllte/BoardConfigVendor.mk
