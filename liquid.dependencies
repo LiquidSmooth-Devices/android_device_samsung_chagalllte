@@ -37,8 +37,8 @@
     },
     {
         "remote": "gh",
-        "repository": "diego-cr/android_vendor_samsung_chagallwifi",
-        "target_path": "vendor/samsung/chagallwifi",
-        "revision": "lp5.1"
+        "repository": "Andrewt12/android_vendor_samsung_chagalllte",
+        "target_path": "vendor/samsung/chagalllte",
+        "revision": "cm-12.1"
     }
 ]
