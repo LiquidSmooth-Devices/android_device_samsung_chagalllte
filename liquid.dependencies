@@ -6,6 +6,12 @@
         "revision": "5.1"
     },
     {
+        "remote": "lsd",
+        "repository": "android_device_samsung_exynos5420-common",
+        "target_path": "device/samsung/exynos5420-common",
+        "revision": "5.1"
+    },
+    {
         "remote": "cm",
         "repository": "android_hardware_samsung",
         "target_path": "hardware/samsung",
